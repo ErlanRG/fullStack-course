@@ -3,6 +3,8 @@ const express = require("express"),
     request = require("request"),
     https = require("https"),
     port = 3000,
+    apiKey = ce9dabb15c7dafee43f78979bb358a4c; //Mailchimp
+    listID = "32bb52e88f"; //Add quotes around a word: ciw "" <C-c>p 
     app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -16,11 +18,27 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-    var firstName = req.body.fName;
-    var lastName = req.body.lName;
-    var email = req.body.email;
+    var firstName = req.body.fName,
+        lastName = req.body.lName,
+        email = req.body.email,
 
-    console.log(firstName, lastName, email);
+        data = {
+            members: [
+                {
+                    email_address: email,
+                    status: "subscribe",
+                    merge_fields:{
+                        FNAME: firstName,
+                        LNAME: lastName
+                    }
+                }
+            ]
+        };
+
+    var jsonData = JSON.stringify(data);
+    https.request(url, options, (response) =>{
+        
+    })
 });
 
 app.listen(port, () => {
