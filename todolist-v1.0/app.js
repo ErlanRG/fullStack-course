@@ -1,40 +1,46 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const date = require(__dirname + "/date.js");
 const app = express();
 
+const items = [];
+const workItems = [];
+
 app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-    var today = new Date(),
-        currentDay = today.getDay(),
-        day = "";
+    const day = date.getDate();
+    res.render("list",{listTitle: day, newListItems: items});
+});
 
-    //if (currentDay === 6 || currentDay === 0){
-    //    day = "Weekend";
-    //} else {
-    //    day = "Weekday";
-    //}
+app.get("/work", (req, res) => {
+    res.render("list",{listTitle: "Work List", newListItems: workItems});
+});
 
-    switch(currentDay){
-        case 0:
-            day = "Monday";
-        case 1:
-            day = "Tuesday";
-        case 2:
-            day = "Wednesday";
-        case 3:
-            day = "Thursday";
-        case 4:
-            day = "Friday";
-        case 5:
-            day = "Saturday";
-        case 6:
-            day = "Sunday";
-        default:
-            break;
+app.get("/about", (req, res) => {
+    res.render("about");
+});
+
+//POST requests
+
+app.post("/", (req, res) => {
+    const item = req.body.newItem;
+
+    if(req.body.list === "Work"){
+        workItems.push(item);
+        res.redirect("/work");
+    }else{
+        items.push(item);
+        res.redirect("/");
     }
-   
-    res.render("list",{kindOfDay: day});
+});
+
+app.post("/work", (req, res) => {
+    const item = req.body.newItem;
+    workItems.push(item);
+    res.redirect("/work");
 });
 
 app.listen(3000, () => console.log("Server running on port 3000"));
