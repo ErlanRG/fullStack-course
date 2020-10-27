@@ -1,9 +1,0 @@
-Cada vez que se vaya a crear un nuevo server project, se deben seguir una serie
-de pasos:
-
-1. Crear el documento de JavaScript en el que se va a trabajar
-2. Crear el archivo de configuración json:
-    2.1. Ejecutar npm init
-    2.2. Llenar la información requerida
-3. Revisar la documentación de Express para darse una idea de cómo se crea un 
-    servidor
