@@ -20,6 +20,14 @@ app.get("/", (req, res) => {
     res.render("home", {homeStartingContent: homeStartingContent, posts: posts});
 });
 
+app.get("/posts/:blogs", (req, res) => {
+    posts.forEach((post) => {
+        if(req.params.blogs === post.title){
+            console.log("Match found");
+        }
+    });
+});
+
 app.get("/about", (req, res) => {
     res.render("about", {aboutContent, aboutContent});
 });
