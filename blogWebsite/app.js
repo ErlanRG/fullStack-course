@@ -23,9 +23,13 @@ app.get("/", (req, res) => {
 });
 
 app.get("/posts/:blogs", (req, res) => {
+    const reqURL = _.lowerCase(req.params.blogs);
+
     posts.forEach((post) => {
-        if(req.params.blogs === post.title){
-            console.log("Match found");
+        const storedTitle = _.lowerCase(post.title);
+
+        if(reqURL === storedTitle){
+            res.render("post", {title: post.title, content: post.body});
         } else {
             console.log("Match not found");
         }
